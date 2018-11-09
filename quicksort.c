@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "lista.h"
 #include "quicksort.h"
 
 int particionaStruct(elemento* vetor, int inicio, int fim, int *compara, int *troca) {
@@ -96,16 +97,31 @@ void quickInt(int *vetor, int inicio, int fim, int *compara, int *troca){
     quickInt(vetor, pivo+1, fim, compara, troca); // e realiza a partição para a parte de direita
   }
 }
-//
-// void particionaLista(Lista* li, Elem* dir){
-//   if (!validos(esq, dir)) return;
-//
-// }
-//
-// void quickLista(Lista* li, int inicio, int fim){
-//   Elem* pivo;
-//   if (fim > inicio){
-//     pivo = particionaLista(li, inicio, fim);
-//     quickLista(li, inicio, pivo)
-//   }
-// }
+
+//Função para particionar a Lista colocando o pivo no meio, tudo que for menor
+//antes e todos os maiores depois
+Elem* particionaLista(Elem* esq, Elem* dir){
+  int x = dir->num;
+  Elem* i,j = dir->ant;
+  for(i = esq;i!= dir;i=i->prox){
+    while(i->num > x){
+      if(j->num <= x){
+        troca(&(i->num),&(j->num));
+      }else{
+        j = j->ant;
+      }
+    }
+  }
+  troca(&(j->num),&(dir->num));
+  return j;
+}
+
+void quickLista(Elem* esq,Elem* dir){
+  Elem* pivo;
+  if (dir != NULL && esq != dir && esq != dir->prox){
+    pivo =  particionaLista(esq, dir);
+    printf("pivo = %d\n",pivo->num);
+    quickLista(esq, pivo->ant);
+    quickLista(pivo->prox, dir);
+  }
+  }
