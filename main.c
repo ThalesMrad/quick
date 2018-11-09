@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-// #include "lista.h"
+#include "lista.h"
 #include "quicksort.h"
 #include "convert.h"
 #include "analysis.h"
@@ -26,7 +26,7 @@ int main(int argc, char** argv){
       fprintf(output, "-------------------------------\nPara N = %d\n\n", N[i]);
       int *vetor = (int*) malloc(N[i]*sizeof(int));
       elemento *vStruct = (elemento*)malloc(N[i]*sizeof(elemento));
-      // Lista* li = criaLista();
+      Lista* li = criaLista();
 
       double cmpmed[TYPE]={0,0,0}, trcmed[TYPE]={0,0,0}, tmpmed[TYPE] = {0,0,0};
 
@@ -36,7 +36,7 @@ int main(int argc, char** argv){
         fprintf(output, ">>> %dª repetição\n", j+1);
         randomVetor(vetor, N[i]);
         randomStruct(vStruct, N[i]);
-        // randomLista(li, vetor, N)
+        randomLista(li, vetor, N[i]);
         srand(seed+j*INCREASE); //seta a seed e incrementa 10 a cada repetição
 
         double utime_ant, utime_pos, stime_ant, stime_pos, diftempo;
@@ -48,6 +48,7 @@ int main(int argc, char** argv){
         computaEstatisticas(tmpmed, trcmed, cmpmed, VET, diftempo, troca, compara);
         fprintf(output, "- Vetor\n   Comparações de chaves: %d\n   Trocas de registros: %d\n   Tempo gasto: %fs\n\n", compara, troca, diftempo);
 
+printf("SOME DAQUI PLAYBOY\n");
         compara = troca = 0;
         contaTempo(&utime_ant, &stime_ant);  //marca o tempo inicial
         quickStruct(vStruct, 0, N[i]-1, &compara, &troca);
@@ -56,8 +57,19 @@ int main(int argc, char** argv){
         computaEstatisticas(tmpmed, trcmed, cmpmed, STRCT, diftempo, troca, compara);
         fprintf(output, "- Vetor de Struct:\n   Comparações de chaves: %d\n   Trocas de registros: %d\n   Tempo gasto: %fs\n\n", compara, troca, diftempo);
 
+printf("SOME DAQUI PLAYBOY 2\n");
+        compara = troca = 0;
+        Elem* dir = ultimono(li);
+        Elem* esq = *li;
+        contaTempo(&utime_ant, &stime_ant); //marca o tempo inicial
+        quickLista(esq,dir);
+        contaTempo(&utime_pos, &stime_pos); //marca o tempo final
+        diftempo = (utime_pos-utime_ant) + (stime_pos-stime_ant);
+        computaEstatisticas(tmpmed, trcmed, cmpmed, LIST, diftempo, troca, compara);
+       // imprimeLista(li);
+printf("SOME DAQUI PLAYBOY3\n");
       }
-      //liberaLista(li):
+      liberaLista(li);
       free(vetor);
       free(vStruct);
 
